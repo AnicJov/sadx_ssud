@@ -5,6 +5,7 @@ from PyQt6.QtGui import QFont, QIcon
 from wheel_widget import WheelSpinnerWidget
 from choice import ChoiceWidget
 from draft import DraftController
+from splits import generate_livesplit_file
 
 
 class MainWindow(QMainWindow):
@@ -135,3 +136,9 @@ class MainWindow(QMainWindow):
             choice_widget.setFixedSize(80, 80)
             self.p2_layout.addWidget(choice_widget, alignment=Qt.AlignmentFlag.AlignRight)
             self.p2_widgets.append(choice_widget)
+        
+        if self.controller.draft_phase >= 5:
+            self.output_splits()
+
+    def output_splits(self):
+        generate_livesplit_file(self.controller.picks)
