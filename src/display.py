@@ -142,3 +142,6 @@ class MainWindow(QMainWindow):
 
     def output_splits(self):
         generate_livesplit_file(self.controller.picks)
+
+        if "Gamma" in self.controller.picks:
+            generate_livesplit_file(self.controller.picks, glitched_gamma=False)

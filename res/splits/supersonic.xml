@@ -10,6 +10,15 @@
     <SegmentHistory />
 </Segment>
 <Segment>
+    <Name>-Enter Perfect Chaos</Name>
+    <Icon />
+    <SplitTimes>
+    <SplitTime name="Personal Best" />
+    </SplitTimes>
+    <BestSegmentTime />
+    <SegmentHistory />
+</Segment>
+<Segment>
     <Name>-Perfect Chaos Part 1</Name>
     <Icon />
     <SplitTimes>
@@ -29,6 +38,15 @@
 </Segment>
 <Segment>
     <Name>Start Super Sonic's Story #2</Name>
+    <Icon />
+    <SplitTimes>
+    <SplitTime name="Personal Best" />
+    </SplitTimes>
+    <BestSegmentTime />
+    <SegmentHistory />
+</Segment>
+<Segment>
+    <Name>-Enter Perfect Chaos</Name>
     <Icon />
     <SplitTimes>
     <SplitTime name="Personal Best" />

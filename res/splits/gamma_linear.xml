@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Segments>
+<Segment>
+    <Name>Start Gamma's Story</Name>
+    <Icon />
+    <SplitTimes>
+    <SplitTime name="Personal Best" />
+    </SplitTimes>
+    <BestSegmentTime />
+    <SegmentHistory />
+</Segment>
+<Segment>
+    <Name>-Final Egg</Name>
+    <Icon />
+    <SplitTimes>
+    <SplitTime name="Personal Best" />
+    </SplitTimes>
+    <BestSegmentTime />
+    <SegmentHistory />
+</Segment>
+<Segment>
+    <Name>-E101 Beta</Name>
+    <Icon />
+    <SplitTimes>
+    <SplitTime name="Personal Best" />
+    </SplitTimes>
+    <BestSegmentTime />
+    <SegmentHistory />
+</Segment>
+<Segment>
+    <Name>-Emerald Coast</Name>
+    <Icon />
+    <SplitTimes>
+    <SplitTime name="Personal Best" />
+    </SplitTimes>
+    <BestSegmentTime />
+    <SegmentHistory />
+</Segment>
+<Segment>
+    <Name>-Jet Booster</Name>
+    <Icon />
+    <SplitTimes>
+    <SplitTime name="Personal Best" />
+    </SplitTimes>
+    <BestSegmentTime />
+    <SegmentHistory />
+</Segment>
+<Segment>
+    <Name>-Sonic</Name>
+    <Icon />
+    <SplitTimes>
+    <SplitTime name="Personal Best" />
+    </SplitTimes>
+    <BestSegmentTime />
+    <SegmentHistory />
+</Segment>
+<Segment>
+    <Name>-Windy Valley</Name>
+    <Icon />
+    <SplitTimes>
+    <SplitTime name="Personal Best" />
+    </SplitTimes>
+    <BestSegmentTime />
+    <SegmentHistory />
+</Segment>
+<Segment>
+    <Name>-Red Mountain</Name>
+    <Icon />
+    <SplitTimes>
+    <SplitTime name="Personal Best" />
+    </SplitTimes>
+    <BestSegmentTime />
+    <SegmentHistory />
+</Segment>
+<Segment>
+    <Name>-Hot Shelter</Name>
+    <Icon />
+    <SplitTimes>
+    <SplitTime name="Personal Best" />
+    </SplitTimes>
+    <BestSegmentTime />
+    <SegmentHistory />
+</Segment>
+<Segment>
+    <Name>{Gamma's Story} E101 MKII</Name>
+    <Icon><![CDATA[AAEAAAD/////AQAAAAAAAAAMAgAAAFFTeXN0ZW0uRHJhd2luZywgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAABVTeXN0ZW0uRHJhd2luZy5CaXRtYXABAAAABERhdGEHAgIAAAAJAwAAAA8DAAAA1wMAAAKJUE5HDQoaCgAAAA1JSERSAAAAIAAAACAIBgAAAHN6evQAAAABc1JHQgCuzhzpAAAABGdBTUEAALGPC/xhBQAAA4FJREFUWEfNly2UozAURpFIJBaJHIlFjkRikZVI7EhkJRaJRNYiV1bWjqyszL6b8mhI/5hdsZtz7nkZ/r6bEBgamB+3s8cvj6PHt8e6/T8CQRBsIvSIPVKPMAwfom0lQBuGwVYa/aZpLLd2Hfkw9JZxaFfsm92CzsAbgesFExHYlaU5nc+m3ZWWMolMKxcCjpkOg2mLzGIGORW6uc79cx8tnAqCWhNF0cJLgVFGZENnAWAfAoTDoUlugQ/wBcax2i7ADCCACDNhZ2OeATt6ZuJBqIsbTv2xgDt6FSiydJF4FOriCphLvAp/InCRcrEreFcWMvrOJHFkuZxPpq0rc9jnxoxyKDwIdbkcEjN8JUtlcadJanGfpmvqEwGXVfgGAQ2HOIzuwnt5sp4KUBk1wdSaReiGv5E4NeEiQLgvsKvKReSlgN4CRAg89cnCWR+7BzIIuOEqQOBnntt+IevME7g2NtL6mhNiU+Qykv5DHrvImL3smzl3kfluw4VzL9tFRGuaRvZ8aiJPVCYLzlKUllFuQTRn0ZaeChDMBQgHQpFQERsqEsqv+iYBnEuwsoRTp5N90l4KuKOnn+XZahZOtQfb53D6rkAst3ElIPWtgM4AtwIQUJpKxAaZnRlmw50B+ipAuBXQ8BnCXwrwWqrkQOjEdvyeLFVR2AuEsrAgy1PT9PKUTLEZ2nipUZR4yPskl9DnL6JrcwUmWSgqQWjbtcsICC/r3IbbfnENB/q+gBu+WcCdBQ12BQhXCFUJV2BMJeQjMFXyFwJUpt8XULgNoYSBCuzk/hMMSLjhmwR4OZzkFgzyt+0fj0vt68bsZLtLJXCsPV6QC8l6vBFFzMqNMOQriazrUN8KsB5UAtzGIiVU4Ryk7LeFgMwfC0xcXPpbBPTRAgQ03BfYZbJo5Zy3AjbYEdBt4DbC3NFTCWcGAAFCVUBOsN+RmwRaWTDUaZpkg/RmJuGrH+X4xORFLYv023x1nSnkPcE/tKMHUvVcIZvR9mMBDaciQDAggYwvoOHMTMqTJHWzwHEcbagrQTizoKgAIDBKdQV05CrQyK3dLAAaDJ+MVEau4cgQ6s5A1/d3AgRTmY23M0A7yML7kL+xZdVqC4JQPqkOi2QQpnY/8COGyvZSzlXcX0l7+YGjv6i0rQSAYBdCV0joCm+/G+4LwFOBrU1Hr/jtfv/9Frf9YwFjfgOnv1QBwhHTZwAAAABJRU5ErkJgggs=]]></Icon>
+    <SplitTimes>
+    <SplitTime name="Personal Best" />
+    </SplitTimes>
+    <BestSegmentTime />
+    <SegmentHistory />
+</Segment>
+</Segments>

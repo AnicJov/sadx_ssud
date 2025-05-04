@@ -81,12 +81,12 @@
       <Setting id="deathWV" type="bool">False</Setting>
       <Setting id="deathMRGamma" type="bool">False</Setting>
       <Setting id="eggCarrierMK2" type="bool">False</Setting>
-      <Setting id="MisceSS" type="bool">False</Setting>
+      <Setting id="MisceSS" type="bool">True</Setting>
       <Setting id="EnterCave" type="bool">False</Setting>
       <Setting id="AngelIsland" type="bool">False</Setting>
       <Setting id="Tikal" type="bool">False</Setting>
       <Setting id="deathSS" type="bool">False</Setting>
-      <Setting id="jungleSS" type="bool">False</Setting>
+      <Setting id="jungleSS" type="bool">True</Setting>
       <Setting id="Boss_Enter" type="bool">False</Setting>
       <Setting id="EnterEggHornet" type="bool">False</Setting>
       <Setting id="EnterChaos2" type="bool">False</Setting>
@@ -106,7 +106,7 @@
       <Setting id="ELW" type="bool">False</Setting>
       <Setting id="EFE" type="bool">False</Setting>
       <Setting id="EHS" type="bool">False</Setting>
-      <Setting id="S_Power" type="bool">False</Setting>
+      <Setting id="S_Power" type="bool">True</Setting>
       <Setting id="Sonic_Powerup1" type="bool">False</Setting>
       <Setting id="Sonic_Powerup2" type="bool">False</Setting>
       <Setting id="Sonic_Powerup3" type="bool">False</Setting>
@@ -116,8 +116,8 @@
       <Setting id="Knux_Powerup2" type="bool">True</Setting>
       <Setting id="Amy_Powerup1" type="bool">True</Setting>
       <Setting id="Amy_Powerup2" type="bool">True</Setting>
-      <Setting id="Big_Powerup1" type="bool">True</Setting>
-      <Setting id="Big_Powerup2" type="bool">True</Setting>
+      <Setting id="Big_Powerup1" type="bool">False</Setting>
+      <Setting id="Big_Powerup2" type="bool">False</Setting>
       <Setting id="Big_Powerup3" type="bool">True</Setting>
       <Setting id="Gamma_Powerup1" type="bool">True</Setting>
       <Setting id="Gamma_Powerup2" type="bool">True</Setting>

@@ -1,7 +1,7 @@
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
-def generate_livesplit_file(stories, template_path="res/splits/template.lss", segment_dir="res/splits/", output_path=None):
+def generate_livesplit_file(stories, template_path="res/splits/template.lss", segment_dir="res/splits/", output_path=None, glitched_gamma=True):
     tree = ET.parse(template_path)
     root = tree.getroot()
 
@@ -12,7 +12,10 @@ def generate_livesplit_file(stories, template_path="res/splits/template.lss", se
     segments.clear()
 
     for i, story in enumerate(stories):
-        segment_path = Path(segment_dir) / f"{story.lower().replace(' ', '')}.xml"
+        if story == "Gamma":
+            segment_path = Path(segment_dir) / f"gamma_{"glitched" if glitched_gamma else "linear"}.xml"
+        else: 
+            segment_path = Path(segment_dir) / f"{story.lower().replace(' ', '')}.xml"
         if not segment_path.exists():
             raise FileNotFoundError(f"Segment file not found: {segment_path}")
         
@@ -25,6 +28,9 @@ def generate_livesplit_file(stories, template_path="res/splits/template.lss", se
             segments.append(segment)
     
     if not output_path:
-        output_path = ("_".join(story.lower().replace(" ", "") for story in stories)) + ".lss"
+        if "Gamma" in stories:
+            output_path = ("glitched_" if glitched_gamma else "linear_") + ("_".join(story.lower().replace(" ", "") for story in stories)) + ".lss"
+        else:
+            output_path = ("_".join(story.lower().replace(" ", "") for story in stories)) + ".lss"
 
     tree.write(output_path, encoding="UTF-8", xml_declaration=True)
