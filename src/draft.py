@@ -25,6 +25,9 @@ class DraftController(QObject):
     
     def make_choice(self, story):
         match self.draft_phase:
+            case 0:
+                self.picks.append(story)
+                self.history.append(("wheel", "pick"))
             case 1:
                 self.bans.append(story)
                 self.p1_choices.append((story, "ban"))

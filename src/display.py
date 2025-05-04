@@ -3,7 +3,7 @@ from PyQt6.QtCore import Qt, pyqtSignal, QObject, QRect
 from PyQt6.QtGui import QFont, QIcon
 
 from wheel_widget import WheelSpinnerWidget
-from choice import ChoiceWidget
+from choice_widget import ChoiceWidget
 from draft import DraftController
 from splits import generate_livesplit_file
 
