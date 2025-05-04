@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QLabel, QSizePolicy
-from PyQt6.QtGui import QPixmap, QPainter, QPen, QMouseEvent
+from PyQt6.QtGui import QPixmap, QPainter, QPen, QMouseEvent, QColor
 from PyQt6.QtCore import pyqtSignal, Qt
 
 class ChoiceWidget(QLabel):
@@ -43,10 +43,11 @@ class ChoiceWidget(QLabel):
             painter.drawRect(3, 3, self.width() - 6, self.height() - 6)
 
             # Red cross
-            red_pen = QPen(Qt.GlobalColor.red, 8)
+            thickness = 6
+            red_pen = QPen(QColor("#d20f39"), thickness)
             painter.setPen(red_pen)
             painter.drawLine(0, 0, self.width(), self.height())
             painter.drawLine(0, self.height(), self.width(), 0)
 
             # Red border
-            painter.drawRect(4, 4, self.width() - 8, self.height() - 8)
+            painter.drawRect(thickness // 2, thickness // 2, self.width() - thickness, self.height() - thickness)

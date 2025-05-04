@@ -59,7 +59,7 @@ class WheelSpinnerWidget(QWidget):
             )
 
         # Draw text labels
-        painter.setFont(QFont("Arial", 12))
+        painter.setFont(QFont("ITC Eras", 12))
         for i, choice in enumerate(self.choices):
             text_angle = math.radians(self.angle + (i + 2) * slice_angle)
             x = int(center.x() + math.sin(text_angle) * (radius * 0.7))

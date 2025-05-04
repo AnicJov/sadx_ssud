@@ -7,7 +7,7 @@ class DraftController(QObject):
     def __init__(self):
         super().__init__()
         self.choices = ["Amy", "Big", "Gamma", "Knuckles", "Super Sonic", "Tails"]
-        self.colors = ["#dd7de0", "#592c93", "#c46d7a", "#d32c3f", "#d8d465", "#db8720"]
+        self.colors = ["#f6a6c1", "#5132fa", "#797979", "#ff1400", "#e2d000", "#ffa901"]
 
         self.draft_phase = 0
         self.draft_phases = ["Wheel Picking", "Player 1 Banning", "Player 2 Banning", "Player 2 Picking", "Player 1 Picking", "Draft Complete!"]
@@ -61,15 +61,18 @@ class DraftController(QObject):
         self.draft_updated.emit()
     
     def undo_last_action(self):
-        if self.draft_phase > 0:
-            self.draft_phase -= 1
-            if self.history[-1][1] == "pick":
-                self.picks.pop()
-            if self.history[-1][1] == "ban":
-                self.bans.pop()
-            if self.history[-1][0] == "p1":
-                self.p1_choices.pop()
-            if self.history[-1][0] == "p2":
-                self.p2_choices.pop()
-            self.history.pop()
-            self.draft_updated.emit()
+        if self.draft_phase <= 0:
+            return
+
+        self.draft_phase -= 1
+        if self.history[-1][1] == "pick":
+            self.picks.pop()
+        if self.history[-1][1] == "ban":
+            self.bans.pop()
+        if self.history[-1][0] == "p1":
+            self.p1_choices.pop()
+        if self.history[-1][0] == "p2":
+            self.p2_choices.pop()
+
+        self.history.pop()
+        self.draft_updated.emit()

@@ -17,6 +17,7 @@ class SSUDBot(commands.Bot):
         print(f'Logged in as {self.user} (ID: {self.user.id})')
         print('------')
 
+
 class ChoiceButton(discord.ui.Button['Choice']):
     icons = {
         "Tails": ('tails', 1337077438802563204),
@@ -27,33 +28,46 @@ class ChoiceButton(discord.ui.Button['Choice']):
         "Amy": ('amy', 1337077368048713729)
     }
 
-    def __init__(self, story: str):
+    def __init__(self, story: str, controller):
         self.story = story
+        self.controller = controller
         super().__init__(style=discord.ButtonStyle.secondary, emoji=discord.PartialEmoji(name=self.icons[story][0], id=self.icons[story][1]), label=story)
 
     async def callback(self, interaction: discord.Interaction):
-        await interaction.response.edit_message(content=f"You banned {self.story}")
+        await interaction.response.send_message(content=f"Player 1 banned {self.story}")
+        self.controller.make_choice(self.story)
 
 
 class Choice(discord.ui.View):
     children: List[ChoiceButton]
 
-    choices = ["Amy", "Big", "Gamma", "Knuckles", "Super Sonic", "Tails"]
-
-    def __init__(self):
+    def __init__(self, controller):
         super().__init__()
 
-        for choice in self.choices:
-            self.add_item(ChoiceButton(choice))
+        self.controller = controller
+
+        for choice in self.controller.choices:
+            self.add_item(ChoiceButton(choice, self.controller))
     
 
 if __name__ == "__main__":
     controller = DraftController()
     bot = SSUDBot(controller)
 
+    async def do_phase(ctx: command.Context):
+        match controller.draft_phase:
+            case 1:
+                await ctx.send('Player 1, choose a story to 🚫ban:', view=Choice(controller))
+            case 2:
+                await ctx.send('Player 2, choose a story to 🚫ban:', view=Choice(controller))
+            case 3:
+                await ctx.send('Player 2, choose a story to ✅pick:', view=Choice(controller))
+            case 4:
+                await ctx.send('Player 1, choose a story to ✅pick:', view=Choice(controller))
+
     @bot.command()
-    async def choice(ctx: commands.Context):
-        """Starts a counter for pressing."""
-        await ctx.send('Player 1, choose a story to ban:', view=Choice())
+    async def start(ctx: commands.Context):
+        while not controller.draft_finished():
+            do_phase(ctx)
 
     bot.run('MTMzNzA3NDczOTIzNTEyNzM0Nw.GO9giO.7h0hY1eWUVkTM_dWxnroxyqyF7D1XXMbL3dwWc')
