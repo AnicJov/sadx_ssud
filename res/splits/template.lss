@@ -45,7 +45,7 @@
       <Setting id="zeroSonic" type="bool">True</Setting>
       <Setting id="eggHornetSonic" type="bool">True</Setting>
       <Setting id="knuxSonic" type="bool">True</Setting>
-      <Setting id="fourSonic" type="bool">True</Setting>
+      <Setting id="fourSonic" type="bool">False</Setting>
       <Setting id="gammaSonic" type="bool">True</Setting>
       <Setting id="sixSonic" type="bool">True</Setting>
       <Setting id="tailsBoss" type="bool">True</Setting>
@@ -56,7 +56,7 @@
       <Setting id="knucklesBoss" type="bool">True</Setting>
       <Setting id="twoKnuckles" type="bool">True</Setting>
       <Setting id="sonicKnuckles" type="bool">True</Setting>
-      <Setting id="fourKnuckles" type="bool">True</Setting>
+      <Setting id="fourKnuckles" type="bool">False</Setting>
       <Setting id="gammaBoss" type="bool">True</Setting>
       <Setting id="E101" type="bool">True</Setting>
       <Setting id="sonicGamma" type="bool">True</Setting>
