@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QWidget
 from PyQt6.QtCore import Qt, QTimer, QPointF, QRectF, QSize
-from PyQt6.QtGui import QPainter, QColor, QFont, QConicalGradient
+from PyQt6.QtGui import QPainter, QColor, QFont, QConicalGradient, QPixmap
 from PyQt6 import QtCore
 import math
 import random
@@ -59,13 +59,29 @@ class WheelSpinnerWidget(QWidget):
             )
 
         # Draw text labels
-        painter.setFont(QFont("ITC Eras", 12))
+        # painter.setFont(QFont("ITC Eras", 12))
+        # for i, choice in enumerate(self.choices):
+        #     text_angle = math.radians(self.angle + (i + 2) * slice_angle)
+        #     x = int(center.x() + math.sin(text_angle) * (radius * 0.7))
+        #     y = int(center.y() - math.cos(text_angle) * (radius * 0.7))
+        #     painter.setPen(Qt.GlobalColor.black)
+        #     painter.drawText(QRectF(x - 45, y - 10, 90, 20), Qt.AlignmentFlag.AlignCenter, choice)
+
+        # Draw images
         for i, choice in enumerate(self.choices):
-            text_angle = math.radians(self.angle + (i + 2) * slice_angle)
-            x = int(center.x() + math.sin(text_angle) * (radius * 0.7))
-            y = int(center.y() - math.cos(text_angle) * (radius * 0.7))
-            painter.setPen(Qt.GlobalColor.black)
-            painter.drawText(QRectF(x - 45, y - 10, 90, 20), Qt.AlignmentFlag.AlignCenter, choice)
+            image_path = f"res/{choice.lower().replace(' ', '')}.png"
+            pixmap = QPixmap(image_path)
+
+            if pixmap.isNull():
+                continue
+
+            scaled_pixmap = pixmap.scaled(60, 60, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+            
+            angle = math.radians(self.angle + (i + 2) * slice_angle)
+            x = int(center.x() + math.sin(angle) * (radius * 0.7)) - scaled_pixmap.width() // 2
+            y = int(center.y() - math.cos(angle) * (radius * 0.7)) - scaled_pixmap.height() // 2
+
+            painter.drawPixmap(x, y, scaled_pixmap)
 
         # Draw the pointer
         pointer_size = 20

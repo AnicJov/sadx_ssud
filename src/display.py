@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QMainWindow, QSpacerItem, QSizePolicy
 from PyQt6.QtCore import Qt, pyqtSignal, QObject, QRect
-from PyQt6.QtGui import QFont
+from PyQt6.QtGui import QFont, QIcon
 
 from wheel_widget import WheelSpinnerWidget
 from choice import ChoiceWidget
@@ -17,6 +17,7 @@ class MainWindow(QMainWindow):
         self.setFixedSize(1280, 720)
         self.setContentsMargins(20, 20, 20, 20)
         self.setStyleSheet("background-color: #FF00FF; color: #FFFFFF;")
+        self.setWindowIcon(QIcon("res/big.png"))
 
         self.status_label = QLabel()
         self.status_label.setFont(QFont('ITC Eras', 32, 500))

@@ -1,14 +1,17 @@
 # ssud.spec
 
-from PyInstaller.utils.hooks import collect_data_files
-from pathlib import Path
 import os
+from pathlib import Path
+from PyInstaller.utils.hooks import collect_data_files
 
 block_cipher = None
 
-# Include all files in the res/ folder
+# Gather resources from res/
 res_path = Path('res')
-res_datas = [(str(f), str(f.parent)) for f in res_path.rglob('*') if f.is_file()]
+res_datas = [
+    (str(f), str(f.parent).replace("\\", "/"))
+    for f in res_path.rglob('*') if f.is_file()
+]
 
 a = Analysis(
     ['src/main.py'],
@@ -38,5 +41,6 @@ exe = EXE(
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
-    console=True,
+    console=False,
+    icon='res/app_icon.ico'
 )
