@@ -5,13 +5,13 @@ from PyQt6.QtGui import QFont, QIcon
 from wheel_widget import WheelSpinnerWidget
 from choice_widget import ChoiceWidget
 from draft import DraftController
-from splits import generate_livesplit_file
+from splits import generate_livesplit_file, generate_split_names_txt
 
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, controller):
         super().__init__()
-        self.controller = DraftController()
+        self.controller = controller if controller else DraftController()
         self.controller.draft_updated.connect(self.update_ui)
 
         self.setWindowTitle("SADX Small Stories Ultimate Draft")
@@ -32,6 +32,7 @@ class MainWindow(QMainWindow):
 
         self.wheel = WheelSpinnerWidget(self.controller.choices, self.controller.colors)
         self.wheel.resultSignal.connect(self.controller.wheel_result)
+        self.controller.wheel_spun.connect(self.wheel.spin)
 
         self.layout = QHBoxLayout()
         self.p1_layout = QVBoxLayout()
@@ -141,7 +142,9 @@ class MainWindow(QMainWindow):
             self.output_splits()
 
     def output_splits(self):
-        generate_livesplit_file(self.controller.picks)
+        # generate_livesplit_file(self.controller.picks)
+        generate_split_names_txt(self.controller.picks)
 
         if "Gamma" in self.controller.picks:
-            generate_livesplit_file(self.controller.picks, glitched_gamma=False)
+            # generate_livesplit_file(self.controller.picks, glitched_gamma=False)
+            generate_split_names_txt(self.controller.picks, glitched_gamma=False)

@@ -3,6 +3,7 @@ from PyQt6.QtCore import Qt, pyqtSignal, QObject
 
 class DraftController(QObject):
     draft_updated = pyqtSignal()
+    wheel_spun = pyqtSignal()
     
     def __init__(self):
         super().__init__()
@@ -17,6 +18,14 @@ class DraftController(QObject):
         self.p1_choices = []
         self.p2_choices = []
         self.history = []
+
+    def available_choices(self):
+        available = []
+        for choice in self.choices:
+            if choice in self.picks or choice in self.bans:
+                continue
+            available.append(choice)
+        return available
     
     def next_phase(self):
         if self.draft_phase < len(self.draft_phases) - 1:
@@ -45,13 +54,14 @@ class DraftController(QObject):
                 self.p1_choices.append((story, "pick"))
                 self.history.append(("p1", "pick"))
         
-        self.draft_updated.emit()
         self.next_phase()
+
+    def spin_wheel(self):
+        self.wheel_spun.emit()
     
     def wheel_result(self, result):
         self.picks.append(result)
         self.history.append(("wheel", "pick"))
-        self.draft_updated.emit()
         self.next_phase()
     
     def reset_draft(self):
