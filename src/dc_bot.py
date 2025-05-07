@@ -99,7 +99,6 @@ class DraftBot(commands.Bot):
             if self.controller.draft_phase != 0:
                 await ctx.send("Cannot spin now.")
                 return
-            # trigger wheel spin - assume controller.spin_wheel emits draft_updated
             self.controller.spin_wheel()
             await ctx.send("Spinning the wheel...")
 
@@ -117,8 +116,16 @@ class DraftBot(commands.Bot):
 
     async def on_draft_updated(self):
         phase = self.controller.draft_phase
+
+        if phase == 5:
+            picks = "\n- ".join(self.controller.picks)
+            splits_path = generate_livesplit_file(self.controller.picks)
+            if "Gamma" in self.controller.picks:
+                alt_splits_path = generate_livesplit_file(self.controller.picks, glitched_gamma=False)
+
         if not self.channel:
             return
+
         if phase == 1:
             view = ChoiceView(self.controller, "Player 1: Choose a story to ban", self.p1_user)
             await self.channel.send(f"{self.p1_user.mention}, ban a story:", view=view)
@@ -132,12 +139,9 @@ class DraftBot(commands.Bot):
             view = ChoiceView(self.controller, "Player 1: Choose a story to pick", self.p1_user)
             await self.channel.send(f"{self.p1_user.mention}, pick a story:", view=view)
         elif phase == 5:
-            picks = "\n- ".join(self.controller.picks)
             await self.channel.send(f"Draft complete!\nStories picked: \n- {picks}")
-            splits_path = generate_livesplit_file(self.controller.picks)
             await self.channel.send("Here are your splits:", file=discord.File(splits_path))
             if "Gamma" in self.controller.picks:
-                alt_splits_path = generate_livesplit_file(self.controller.picks, glitched_gamma=False)
                 await self.channel.send(file=discord.File(alt_splits_path))
 
 def create_bot(controller):
