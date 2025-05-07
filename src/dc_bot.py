@@ -30,21 +30,25 @@ class ChoiceButton(discord.ui.Button):
         self.story = story
         self.controller = controller
         self.player = player
+        self.draft_phase = self.controller.draft_phase
         emoji_name, emoji_id = self.icons[story]
         emoji = discord.PartialEmoji(name=emoji_name, id=emoji_id)
         super().__init__(style=discord.ButtonStyle.secondary, emoji=emoji, label=story)
 
     async def callback(self, interaction: discord.Interaction):
-        # only allow the correct player
+        # Only allow the correct player
         if interaction.user.id != self.player.id:
             await interaction.response.send_message("You're not allowed to make this choice.", ephemeral=True)
             return
 
-        self.controller.make_choice(self.story)
-        # await interaction.response.send_message(f"{interaction.user.display_name} chose **{self.story}**.", ephemeral=False)
-        for child in self.view.children:
-            child.disabled = True
+        # Prevent late responses
+        if self.draft_phase != self.controller.draft_phase:
+            await interaction.message.delete()
+            await interaction.response.send_message("This choice has already been made.", ephemeral=True)
+            return
+
         await interaction.message.delete()
+        self.controller.make_choice(self.story)
 
 class ChoiceView(discord.ui.View):
     def __init__(self, controller, prompt: str, player: discord.User):
@@ -117,7 +121,17 @@ class DraftBot(commands.Bot):
     async def on_draft_updated(self):
         phase = self.controller.draft_phase
 
+        # Generate split file(s)
+        if phase == 5:
+            picks = "\n- ".join(self.controller.picks)
+            splits_path = generate_livesplit_file(self.controller.picks)
+            if "Gamma" in self.controller.picks:
+                alt_splits_path = generate_livesplit_file(self.controller.picks, glitched_gamma=False)
+
         # Create and send last action performed
+        if not self.channel:
+            return
+
         last_action = self.controller.history[-1]
         last_action_string = ""
 
@@ -144,17 +158,7 @@ class DraftBot(commands.Bot):
 
         await self.channel.send(last_action_string)
 
-        # Generate split file(s)
-        if phase == 5:
-            picks = "\n- ".join(self.controller.picks)
-            splits_path = generate_livesplit_file(self.controller.picks)
-            if "Gamma" in self.controller.picks:
-                alt_splits_path = generate_livesplit_file(self.controller.picks, glitched_gamma=False)
-
         # Prompt for next action
-        if not self.channel:
-            return
-
         if phase == 1:
             view = ChoiceView(self.controller, "Player 1: Choose a story to ban", self.p1_user)
             await self.channel.send(f"{self.p1_user.mention}, ban a story:", view=view)
