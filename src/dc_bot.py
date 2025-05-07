@@ -41,7 +41,7 @@ class ChoiceButton(discord.ui.Button):
             return
 
         self.controller.make_choice(self.story)
-        await interaction.response.send_message(f"{interaction.user.display_name} chose **{self.story}**.", ephemeral=False)
+        # await interaction.response.send_message(f"{interaction.user.display_name} chose **{self.story}**.", ephemeral=False)
         for child in self.view.children:
             child.disabled = True
         await interaction.message.delete()
@@ -117,12 +117,41 @@ class DraftBot(commands.Bot):
     async def on_draft_updated(self):
         phase = self.controller.draft_phase
 
+        # Create and send last action performed
+        last_action = self.controller.history[-1]
+        last_action_string = ""
+
+        match last_action[0]:
+            case "wheel":
+                last_action_string += "The wheel"
+            case "p1":
+                if self.p1_user:
+                    last_action_string += self.p1_user.display_name
+                else:
+                    last_action_string += "Player 1"
+            case "p2":
+                if self.p2_user:
+                    last_action_string += self.p2_user.display_name
+                else:
+                    last_action_string += "Player 2"
+
+        last_action_string += " picked ✅ " if last_action[1] == "pick" else " banned 🚫 "
+        
+        if last_action[1] == "pick":
+            last_action_string += "**" + self.controller.picks[-1] + "**"
+        else:
+            last_action_string += "**" + self.controller.bans[-1] + "**"
+
+        await self.channel.send(last_action_string)
+
+        # Generate split file(s)
         if phase == 5:
             picks = "\n- ".join(self.controller.picks)
             splits_path = generate_livesplit_file(self.controller.picks)
             if "Gamma" in self.controller.picks:
                 alt_splits_path = generate_livesplit_file(self.controller.picks, glitched_gamma=False)
 
+        # Prompt for next action
         if not self.channel:
             return
 
