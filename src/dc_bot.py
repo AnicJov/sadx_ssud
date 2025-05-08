@@ -253,14 +253,17 @@ class DraftBot(commands.Bot):
         elif phase == 5:
             await self.channel.send(f"Draft complete!\nStories picked: \n- {picks}")
             await self.channel.send("Here are your splits:", file=discord.File(splits_path))
-            # TODO: Send pacekeeping slits for both glitched and linear Gamma
             await self.pacekeeping_channel.send("Pacekeeping splits "
                                                 + "+".join(self.controller.picks)
                                                 + " for " + self.p1_user.display_name
                                                 + " vs. " + self.p2_user.display_name + ":")
-            await self.pacekeeping_channel.send("```\n" + "\n".join(generate_split_names(self.controller.picks)) + "```")
+            await self.pacekeeping_channel.send(("With glitched Gamma route:\n" if "Gamma" in self.controller.picks else "")
+                                                + "```\n" + "\n".join(generate_split_names(self.controller.picks)) + "```")
             if "Gamma" in self.controller.picks:
                 await self.channel.send(file=discord.File(alt_splits_path))
+                await self.channel.send("Please choose splits appropriate for the Gamma route you'll take and write that down in chat. Thanks!")
+                await self.pacekeeping_channel.send("With linear Gamma route:\n```\n"
+                                                    + "\n".join(generate_split_names(self.controller.picks, glitched_gamma=False)) + "```")
 
 def create_bot(controller):
     intents = discord.Intents.default()
