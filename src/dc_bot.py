@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from time import sleep
 
-from splits import generate_livesplit_file
+from splits import generate_livesplit_file, generate_split_names
 
 
 AUTHORIZED_USERS = [
@@ -15,6 +15,8 @@ AUTHORIZED_USERS = [
     998715376898678916, # Underground
     83959976095125504,  # Deku
 ]
+
+PACEKEEPING_CHANNEL = 1369855193583321209
 
 class ChoiceButton(discord.ui.Button):
     icons = {
@@ -66,9 +68,20 @@ class DraftBot(commands.Bot):
         self.p1_user = None
         self.p2_user = None
         self.channel = None
+        self.pacekeeping_channel = None
+
+    async def on_ready(self):
+        self.pacekeeping_channel = self.get_channel(PACEKEEPING_CHANNEL)
+        if self.pacekeeping_channel is None:
+            self.pacekeeping_channel = await self.fetch_channel(PACEKEEPING_CHANNEL)
 
     async def setup_hook(self):
         # register commands
+
+        # TODO: Create !choice command
+        # TODO: Create !auth command
+        # TODO: Add coinflip funciton
+
         @self.command(name="start")
         async def start(ctx, user1: discord.User, user2: discord.User):
             if ctx.author.id not in AUTHORIZED_USERS:
@@ -174,6 +187,12 @@ class DraftBot(commands.Bot):
         elif phase == 5:
             await self.channel.send(f"Draft complete!\nStories picked: \n- {picks}")
             await self.channel.send("Here are your splits:", file=discord.File(splits_path))
+            # TODO: Send pacekeeping slits for both glitched and linear Gamma
+            await self.pacekeeping_channel.send("Pacekeeping splits "
+                                                + "+".join(self.controller.picks)
+                                                + " for " + self.p1_user.display_name
+                                                + " vs. " + self.p2_user.display_name + ":")
+            await self.pacekeeping_channel.send("```\n" + "\n".join(generate_split_names(self.controller.picks)) + "```")
             if "Gamma" in self.controller.picks:
                 await self.channel.send(file=discord.File(alt_splits_path))
 
