@@ -1,5 +1,6 @@
 import discord
 import os
+import random
 from discord.ext import commands
 from time import sleep
 
@@ -149,6 +150,13 @@ class DraftBot(commands.Bot):
 
                 await ctx.send(str(i))
                 sleep(1)
+        
+        @self.command(name="coinflip")
+        async def coinflip(ctx):
+            if not await self.is_authorized(ctx):
+                return
+
+            await ctx.send(random.choice(["Heads", "Tails"]))
 
     async def on_draft_updated(self):
         phase = self.controller.draft_phase
