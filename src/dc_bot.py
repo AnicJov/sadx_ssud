@@ -1,22 +1,10 @@
 import discord
+import os
 from discord.ext import commands
 from time import sleep
 
 from splits import generate_livesplit_file, generate_split_names
 
-
-AUTHORIZED_USERS = [
-    147104361032450048, # Anic
-    127194734916665346, # Labrys
-    277453062111494145, # Skoob
-    493499862281748507, # Wither
-    204385793559625728, # Drum
-    265601121328955392, # Mimik
-    998715376898678916, # Underground
-    83959976095125504,  # Deku
-]
-
-PACEKEEPING_CHANNEL = 1369855193583321209
 
 class ChoiceButton(discord.ui.Button):
     icons = {
@@ -71,9 +59,11 @@ class DraftBot(commands.Bot):
         self.pacekeeping_channel = None
 
     async def on_ready(self):
-        self.pacekeeping_channel = self.get_channel(PACEKEEPING_CHANNEL)
+        self.AUTHORIZED_USERS = [int(uid.strip()) for uid in os.getenv("AUTHORIZED_USERS", "").split(",")]
+        self.PACEKEEPING_CHANNEL = int(os.getenv("PACEKEEPING_CHANNEL"))
+        self.pacekeeping_channel = self.get_channel(self.PACEKEEPING_CHANNEL)
         if self.pacekeeping_channel is None:
-            self.pacekeeping_channel = await self.fetch_channel(PACEKEEPING_CHANNEL)
+            self.pacekeeping_channel = await self.fetch_channel(self.PACEKEEPING_CHANNEL)
 
     async def setup_hook(self):
         # register commands
@@ -84,7 +74,7 @@ class DraftBot(commands.Bot):
 
         @self.command(name="start")
         async def start(ctx, user1: discord.User, user2: discord.User):
-            if ctx.author.id not in AUTHORIZED_USERS:
+            if ctx.author.id not in self.AUTHORIZED_USERS:
                 await ctx.send("You are not authorized to start a draft.")
                 return
             if self.controller.draft_phase != 0:
@@ -97,21 +87,21 @@ class DraftBot(commands.Bot):
 
         @self.command(name="reset")
         async def reset(ctx):
-            if ctx.author.id not in AUTHORIZED_USERS:
+            if ctx.author.id not in self.AUTHORIZED_USERS:
                 return
             self.controller.reset_draft()
             await ctx.send("Draft has been reset.")
 
         @self.command(name="undo")
         async def undo(ctx):
-            if ctx.author.id not in AUTHORIZED_USERS:
+            if ctx.author.id not in self.AUTHORIZED_USERS:
                 return
             self.controller.undo_last_action()
             await ctx.send("Reverted last action.")
 
         @self.command(name="spin")
         async def spin(ctx):
-            if ctx.author.id not in AUTHORIZED_USERS:
+            if ctx.author.id not in self.AUTHORIZED_USERS:
                 return
             if self.controller.draft_phase != 0:
                 await ctx.send("Cannot spin now.")
@@ -121,7 +111,7 @@ class DraftBot(commands.Bot):
 
         @self.command(name="countdown")
         async def countdown(ctx, count=5):
-            if ctx.author.id not in AUTHORIZED_USERS:
+            if ctx.author.id not in self.AUTHORIZED_USERS:
                 return
             for i in reversed(range(count+1)):
                 if i == 0:
