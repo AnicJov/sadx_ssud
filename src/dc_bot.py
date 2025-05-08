@@ -265,5 +265,5 @@ class DraftBot(commands.Bot):
 def create_bot(controller):
     intents = discord.Intents.default()
     intents.message_content = True
-    bot = DraftBot(controller, command_prefix="!", intents=intents)
+    bot = DraftBot(controller, command_prefix=os.getenv("COMMAND_PREFIX").strip(), intents=intents)
     return bot
