@@ -2,7 +2,6 @@ import sys
 import os
 from qasync import QEventLoop, asyncSlot, QApplication
 import asyncio
-from discord.ext import commands
 from dotenv import load_dotenv
 
 from display import MainWindow
@@ -39,8 +38,6 @@ if __name__ == "__main__":
 
     # Connect the signal to the Qt app and the Discord async callback
     controller.draft_updated.connect(on_draft_updated)
-
-    # TODO: Load config from file
 
     # Run everything
     with loop:

@@ -9,7 +9,7 @@ from splits import generate_livesplit_file, generate_split_names
 class ChoiceButton(discord.ui.Button):
     icons = {
         "Tails": ('tails', 1337077438802563204),
-        "Super Sonic": ('supersonic', 1337077427935117326),
+        "Super Sonic": ('supersonic', 1369879611479035974),
         "Knuckles": ('knuckles', 1337077410625093662),
         "Gamma": ('gamma', 1337077396582436985),
         "Big": ('big', 1337077386939863071),
@@ -65,18 +65,24 @@ class DraftBot(commands.Bot):
         if self.pacekeeping_channel is None:
             self.pacekeeping_channel = await self.fetch_channel(self.PACEKEEPING_CHANNEL)
 
-    async def setup_hook(self):
-        # register commands
+    async def is_authorized(self, ctx):
+        if ctx.author.id not in self.AUTHORIZED_USERS:
+            await ctx.send("You are not authorized to perform this action.", ephemeral=True)
+            return False
+        
+        return True
 
-        # TODO: Create !choice command
+    async def setup_hook(self):
+        # Register commands
+
         # TODO: Create !auth command
         # TODO: Add coinflip funciton
 
         @self.command(name="start")
         async def start(ctx, user1: discord.User, user2: discord.User):
-            if ctx.author.id not in self.AUTHORIZED_USERS:
-                await ctx.send("You are not authorized to start a draft.")
+            if not await self.is_authorized(ctx):
                 return
+
             if self.controller.draft_phase != 0:
                 await ctx.send("A draft is already in progress.")
                 return
@@ -85,24 +91,46 @@ class DraftBot(commands.Bot):
             self.channel = ctx.channel
             await ctx.send(f"Draft started between {user1.mention} and {user2.mention}. Use !spin to begin.")
 
+        @self.command(name="choice")
+        async def choice(ctx, story):
+            if not await self.is_authorized(ctx):
+                return
+
+            if story is None or story == "":
+                await ctx.send("Command usage: !choice <Name of Story>")
+                return
+
+            story = story.title().strip()
+            if story.startswith("Super"):
+                story = "Super Sonic"
+
+            if story not in self.controller.available_choices():
+                await ctx.send("Invalid choice.")
+                return
+
+            self.controller.make_choice(story)
+
         @self.command(name="reset")
         async def reset(ctx):
-            if ctx.author.id not in self.AUTHORIZED_USERS:
+            if not await self.is_authorized(ctx):
                 return
+
             self.controller.reset_draft()
             await ctx.send("Draft has been reset.")
 
         @self.command(name="undo")
         async def undo(ctx):
-            if ctx.author.id not in self.AUTHORIZED_USERS:
+            if not await self.is_authorized(ctx):
                 return
+
             self.controller.undo_last_action()
             await ctx.send("Reverted last action.")
 
         @self.command(name="spin")
         async def spin(ctx):
-            if ctx.author.id not in self.AUTHORIZED_USERS:
+            if not await self.is_authorized(ctx):
                 return
+
             if self.controller.draft_phase != 0:
                 await ctx.send("Cannot spin now.")
                 return
@@ -111,8 +139,9 @@ class DraftBot(commands.Bot):
 
         @self.command(name="countdown")
         async def countdown(ctx, count=5):
-            if ctx.author.id not in self.AUTHORIZED_USERS:
+            if not await self.is_authorized(ctx):
                 return
+
             for i in reversed(range(count+1)):
                 if i == 0:
                     await ctx.send("# GO!")
