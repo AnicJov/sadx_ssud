@@ -76,9 +76,6 @@ class DraftBot(commands.Bot):
     async def setup_hook(self):
         # Register commands
 
-        # TODO: Create !auth command
-        # TODO: Add coinflip funciton
-
         @self.command(name="start")
         async def start(ctx, user1: discord.User, user2: discord.User):
             if not await self.is_authorized(ctx):
@@ -87,9 +84,11 @@ class DraftBot(commands.Bot):
             if self.controller.draft_phase != 0:
                 await ctx.send("A draft is already in progress.")
                 return
+
             self.p1_user = user1
             self.p2_user = user2
             self.channel = ctx.channel
+
             await ctx.send(f"Draft started between {user1.mention} and {user2.mention}. Use !spin to begin.")
 
         @self.command(name="choice")
@@ -135,6 +134,7 @@ class DraftBot(commands.Bot):
             if self.controller.draft_phase != 0:
                 await ctx.send("Cannot spin now.")
                 return
+
             self.controller.spin_wheel()
             await ctx.send("Spinning the wheel...")
 
@@ -157,6 +157,44 @@ class DraftBot(commands.Bot):
                 return
 
             await ctx.send(random.choice(["Heads", "Tails"]))
+
+        @self.group(name="auth", invoke_without_command=True)
+        async def auth(ctx):
+            if not await self.is_authorized(ctx):
+                return
+            
+            await ctx.send("Usage: !auth show | !auth add <id> | !auth remove <id>")
+
+        @auth.command(name="show")
+        async def auth_show(ctx):
+            if not await self.is_authorized(ctx):
+                return
+            
+            user_list = []
+            for uid in self.AUTHORIZED_USERS:
+                user = self.get_user(uid) or await self.fetch_user(uid)
+                user_list.append(user.name if user else str(uid))
+            
+            await ctx.send("Authorized users: " + ", ".join(user_list))
+
+        @auth.command(name="add")
+        async def auth_add(ctx, uid: int):
+            if not await self.is_authorized(ctx):
+                return
+
+            self.AUTHORIZED_USERS.append(uid)
+            user = self.get_user(uid) or await self.fetch_user(uid)
+            await ctx.send(f"Added {user.name} to authorized users.")
+
+        @auth.command(name="remove")
+        async def auth_remove(ctx, uid: int):
+            if not await self.is_authorized(ctx):
+                return
+
+            self.AUTHORIZED_USERS.remove(uid)
+            user = self.get_user(uid) or await self.fetch_user(uid)
+            await ctx.send(f"Removed {user.name} from authorized users.")
+
 
     async def on_draft_updated(self):
         phase = self.controller.draft_phase
