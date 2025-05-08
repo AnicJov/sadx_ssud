@@ -164,31 +164,32 @@ class DraftBot(commands.Bot):
         if not self.channel:
             return
 
-        last_action = self.controller.history[-1]
-        last_action_string = ""
+        if len(self.controller.history) != 0:
+            last_action = self.controller.history[-1]
+            last_action_string = ""
 
-        match last_action[0]:
-            case "wheel":
-                last_action_string += "The wheel"
-            case "p1":
-                if self.p1_user:
-                    last_action_string += self.p1_user.display_name
-                else:
-                    last_action_string += "Player 1"
-            case "p2":
-                if self.p2_user:
-                    last_action_string += self.p2_user.display_name
-                else:
-                    last_action_string += "Player 2"
+            match last_action[0]:
+                case "wheel":
+                    last_action_string += "The wheel"
+                case "p1":
+                    if self.p1_user:
+                        last_action_string += self.p1_user.display_name
+                    else:
+                        last_action_string += "Player 1"
+                case "p2":
+                    if self.p2_user:
+                        last_action_string += self.p2_user.display_name
+                    else:
+                        last_action_string += "Player 2"
 
-        last_action_string += " picked ✅ " if last_action[1] == "pick" else " banned 🚫 "
-        
-        if last_action[1] == "pick":
-            last_action_string += "**" + self.controller.picks[-1] + "**"
-        else:
-            last_action_string += "**" + self.controller.bans[-1] + "**"
+            last_action_string += " picked ✅ " if last_action[1] == "pick" else " banned 🚫 "
+            
+            if last_action[1] == "pick":
+                last_action_string += "**" + self.controller.picks[-1] + "**"
+            else:
+                last_action_string += "**" + self.controller.bans[-1] + "**"
 
-        await self.channel.send(last_action_string)
+            await self.channel.send(last_action_string)
 
         # Prompt for next action
         if phase == 1:
