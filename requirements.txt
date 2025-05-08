@@ -1,0 +1,8 @@
+PyQt6
+audioop-lts
+discord.py
+numpy
+matplotlib
+srcomapi
+pyinstaller
+python-dotenv
