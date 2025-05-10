@@ -126,6 +126,11 @@ class MainWindow(QMainWindow):
             else:
                 widget.enable()
 
+        if self.controller.draft_phase == 0:
+            self.spin_button.setEnabled(True)
+        else:
+            self.spin_button.setEnabled(False)
+
         for story in self.controller.picks:
             choice_widget = ChoiceWidget(story)
             choice_widget.setFixedSize(80, 80)

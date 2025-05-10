@@ -66,6 +66,9 @@ class DraftController(QObject):
         self.wheel_spun.emit()
     
     def wheel_result(self, result):
+        if result not in self.available_choices():
+            return
+
         self.picks.append(result)
         self.history.append(("wheel", "pick"))
         self.next_phase()
