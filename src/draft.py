@@ -20,6 +20,9 @@ class DraftController(QObject):
         self.history = []
 
     def available_choices(self):
+        if len(self.picks) >= 3:
+            return []
+
         available = []
         for choice in self.choices:
             if choice in self.picks or choice in self.bans:
@@ -33,6 +36,9 @@ class DraftController(QObject):
             self.draft_updated.emit()
     
     def make_choice(self, story):
+        if story not in self.available_choices():
+            return
+        
         match self.draft_phase:
             case 0:
                 self.picks.append(story)

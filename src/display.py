@@ -120,6 +120,12 @@ class MainWindow(QMainWindow):
         self.p2_widgets.clear()
         self.picked_widgets.clear()
 
+        for widget in self.choice_buttons:
+            if widget.story not in self.controller.available_choices():
+                widget.disable()
+            else:
+                widget.enable()
+
         for story in self.controller.picks:
             choice_widget = ChoiceWidget(story)
             choice_widget.setFixedSize(80, 80)

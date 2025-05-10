@@ -1,27 +1,42 @@
 from PyQt6.QtWidgets import QLabel, QSizePolicy
-from PyQt6.QtGui import QPixmap, QPainter, QPen, QMouseEvent, QColor
+from PyQt6.QtGui import QPixmap, QPainter, QPen, QMouseEvent, QColor, QImage
 from PyQt6.QtCore import pyqtSignal, Qt
 
 class ChoiceWidget(QLabel):
     onclick = pyqtSignal()
 
-    def __init__(self, story="Tails", ban=False, **args):
+    def __init__(self, story="Tails", ban=False, disabled=False, **args):
         super().__init__(*args)
 
         self.story = story
         self.ban = ban
+        self.disabled = disabled
 
         self.setFixedSize(40, 40)
         self.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         self.setScaledContents(True)
         self.updatePixmap()
 
+    def enable(self):
+        self.disabled = False
+        self.updatePixmap()
+    
+    def disable(self):
+        self.disabled = True
+        self.updatePixmap()
+
     def updatePixmap(self):
         """Loads the base icon and triggers a repaint."""
-        self.setPixmap(QPixmap(f'res/{self.story.replace(" ", "").lower()}.png'))
+        image = QImage(f'res/{self.story.replace(" ", "").lower()}.png')
+        if self.disabled:
+            image = image.convertToFormat(QImage.Format.Format_Grayscale8)
+        pixmap = QPixmap.fromImage(image)
+        self.setPixmap(pixmap)
         self.repaint()
 
     def mousePressEvent(self, event: QMouseEvent):
+        if self.disabled:
+            return
         if event.button() == Qt.MouseButton.LeftButton:
             self.onclick.emit()
 
