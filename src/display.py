@@ -1,3 +1,4 @@
+import os
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QMainWindow, QSpacerItem, QSizePolicy
 from PyQt6.QtCore import Qt, pyqtSignal, QObject, QRect
 from PyQt6.QtGui import QFont, QIcon
@@ -17,7 +18,10 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("SADX Small Stories Ultimate Draft")
         self.setFixedSize(1280, 720)
         self.setContentsMargins(20, 20, 20, 20)
-        self.setStyleSheet("background-color: #FF00FF; color: #FFFFFF;")
+
+        self.background_color = os.getenv("BACKGROUND_COLOR") if os.getenv("BACKGROUND_COLOR") else "#FF00FF"
+
+        self.setStyleSheet(f"background-color: {self.background_color}; color: #FFFFFF;")
         self.setWindowIcon(QIcon("res/big.png"))
 
         self.status_label = QLabel()
