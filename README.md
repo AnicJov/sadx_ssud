@@ -28,6 +28,8 @@ This repository also includes some statistics calculations based on [SRC SADX le
     PACEKEEPING_CHANNEL=<Channel ID>
 
     COMMAND_PREFIX=<Prefix for commands e.g. !>
+
+    BACKGROUND_COLOR=#FF00FF
     ```
 1. Run `ssud.exe` on Windows or `ssud` on other systems.
 
