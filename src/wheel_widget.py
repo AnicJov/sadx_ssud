@@ -15,12 +15,18 @@ class WheelSpinnerWidget(QWidget):
         self.choice_colors = choice_colors
         self.angle = 0
         self.is_spinning = False
-        self.spin_timer = QTimer()
+        self.spin_timer = QTimer(self)
         self.spin_timer.timeout.connect(self.update_spin)
         self.current_speed = 0
         self.final_angle = 0
         self.result = None
+        self.reset()
         self.init_ui()
+
+    def reset(self):
+        self.result = None
+        self.angle = random.uniform(0, 360)
+        self.update()
 
     def init_ui(self):
         self.setMinimumSize(400, 400)
@@ -98,7 +104,7 @@ class WheelSpinnerWidget(QWidget):
             return
 
         self.is_spinning = True
-        self.current_speed = random.uniform(10, 25)  # Initial speed
+        self.current_speed = random.uniform(12, 30)  # Initial speed
         self.result = None
         self.spin_timer.start(16)  # ~60 FPS
 

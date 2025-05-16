@@ -14,6 +14,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.controller = controller if controller else DraftController()
         self.controller.draft_updated.connect(self.update_ui)
+        self.controller.draft_reset.connect(self.reset)
 
         self.setWindowTitle("SADX Small Stories Ultimate Draft")
         self.setFixedSize(1280, 720)
@@ -104,6 +105,9 @@ class MainWindow(QMainWindow):
         self.p1_widgets = []
         self.p2_widgets = []
         self.update_ui()
+
+    def reset(self):
+        self.wheel.reset()
 
     def update_ui(self):
         self.status_label.setText(self.controller.draft_phases[self.controller.draft_phase])

@@ -4,6 +4,7 @@ from PyQt6.QtCore import Qt, pyqtSignal, QObject
 class DraftController(QObject):
     draft_updated = pyqtSignal()
     wheel_spun = pyqtSignal()
+    draft_reset = pyqtSignal()
     
     def __init__(self):
         super().__init__()
@@ -80,6 +81,7 @@ class DraftController(QObject):
         self.p1_choices.clear()
         self.p2_choices.clear()
         self.history.clear()
+        self.draft_reset.emit()
         self.draft_updated.emit()
     
     def undo_last_action(self):
