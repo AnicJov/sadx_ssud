@@ -82,14 +82,14 @@ class DraftBot(commands.Bot):
                 return
 
             if self.controller.draft_phase != 0:
-                await ctx.send("A draft is already in progress.")
+                await ctx.send(f"A draft is already in progress. Use {self.command_prefix}reset to reset the draft.")
                 return
 
             self.p1_user = user1
             self.p2_user = user2
             self.channel = ctx.channel
 
-            await ctx.send(f"Draft started between {user1.mention} and {user2.mention}. Use !spin to begin.")
+            await ctx.send(f"Draft started between {user1.mention} and {user2.mention}. Admins, use {self.command_prefix}spin to begin.")
 
         @self.command(name="choice")
         async def choice(ctx, story):
@@ -97,7 +97,7 @@ class DraftBot(commands.Bot):
                 return
 
             if story is None or story == "":
-                await ctx.send("Command usage: !choice <Name of Story>")
+                await ctx.send(f"Command usage: {self.command_prefix}choice <Name of Story>")
                 return
 
             story = story.title().strip()
@@ -163,7 +163,7 @@ class DraftBot(commands.Bot):
             if not await self.is_authorized(ctx):
                 return
             
-            await ctx.send("Usage: !auth show | !auth add <id> | !auth remove <id>")
+            await ctx.send(f"Usage: {self.command_prefix}auth show | {self.command_prefix}auth add <id> | {self.command_prefix}auth remove <id>")
 
         @auth.command(name="show")
         async def auth_show(ctx):
@@ -264,6 +264,7 @@ class DraftBot(commands.Bot):
                 await self.channel.send("Please choose splits appropriate for the Gamma route you'll take and write that down in chat. Thanks!")
                 await self.pacekeeping_channel.send("With linear Gamma route:\n```\n"
                                                     + "\n".join(generate_split_names(self.controller.picks, glitched_gamma=False)) + "```")
+            await self.channel.send("Please let us know when you're ready for the countdown!")
 
 def create_bot(controller):
     intents = discord.Intents.default()
